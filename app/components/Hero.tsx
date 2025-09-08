@@ -3,8 +3,8 @@ export const Hero = () => (
     <h1 className="text-5xl font-bold mb-4 tracking-tight">
       Res Pizarro
     </h1>
-    <p className="text-testBlue font-bold">I’m colored with testBlue</p>
-
-    <div className="bg-testBlue text-testBlue p-4">Testing blue</div>
+    <p className="text-lg text-gray-700 max-w-xl mx-auto">
+      I design and engineer thoughtful digital experiences using code, creativity, and ancestral intuition.
+    </p>
   </section>
 );
