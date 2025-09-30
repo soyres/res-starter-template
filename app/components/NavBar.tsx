@@ -1,75 +1,78 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import SlideDrawer, { DrawerLink, DrawerSocial } from "./SlideDrawer";
-import useActiveSection from "@/app/hooks/useActiveSection";
-// ...icons etc.
 
-const LINKS: DrawerLink[] = [
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
-];
+type Anchor = "top" | "bottom";
+type ShowMode = "mobile" | "desktop" | "always" | "never";
 
-export default function NavBar() {
-  const [open, setOpen] = useState(false);
-  const [side, setSide] = useState<"left" | "right">("left");
+export function Show({ on = "always", children }: { on?: ShowMode; children: React.ReactNode }) {
+  const map: Record<ShowMode, string> = {
+    always: "",
+    never: "hidden",
+    mobile: "md:hidden",
+    desktop: "hidden md:block",
+  };
+  return <div className={map[on]}>{children}</div>;
+}
+
+/**
+ * Slot-based NavBar with scroll-aware styling.
+ * Put anything into left / center / right.
+ */
+export default function NavBar({
+  position = "top",
+  solidOnScroll = true,
+  containerClassName = "mx-auto max-w-7xl px-5 py-6",
+  left,
+  center,
+  right,
+  blurClass = "backdrop-blur supports-[backdrop-filter]:bg-white/60",
+  borderClassTop = "border-t border-black/10",
+  borderClassBottom = "border-b border-black/10",
+  transparentClass = "bg-transparent",
+  className = "",
+}: {
+  position?: Anchor;
+  solidOnScroll?: boolean;
+  containerClassName?: string;
+  left?: React.ReactNode;
+  center?: React.ReactNode;
+  right?: React.ReactNode;
+  blurClass?: string;
+  borderClassTop?: string;
+  borderClassBottom?: string;
+  transparentClass?: string;
+  className?: string;
+}) {
   const [scrolled, setScrolled] = useState(false);
 
-  const ids = LINKS.map((l) => l.href.startsWith("#") ? l.href.slice(1) : "").filter(Boolean) as string[];
-  const activeId = useActiveSection(ids);
-
   useEffect(() => {
+    if (!solidOnScroll) return;
     const onScroll = () => setScrolled(window.scrollY > 4);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [solidOnScroll]);
+
+  const posClass = position === "top" ? "top-0" : "bottom-0";
+  const edgeBorder = position === "top" ? borderClassBottom : borderClassTop;
+  const bgClass = scrolled && solidOnScroll ? [blurClass, edgeBorder].join(" ") : transparentClass;
 
   return (
-    <>
-      <header className={[
-        "fixed inset-x-0 top-0 z-50 transition-colors",
-        scrolled ? "backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-black/10" : "bg-transparent",
-      ].join(" ")}>
-        <nav className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-          <Link href="/" className="text-sm tracking-widest uppercase">
-            <span className="font-semibold">Res</span>&nbsp;Pizarro
-          </Link>
-
-          <ul className="hidden md:flex items-center gap-8 text-sm">
-            {LINKS.map((l) => {
-              const id = l.href.slice(1);
-              const isActive = activeId === id;
-              return (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    className={[
-                      "transition-opacity",
-                      isActive ? "opacity-100 font-medium underline underline-offset-8" : "opacity-80 hover:opacity-100"
-                    ].join(" ")}
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-
-          {/* mobile controls unchanged ... */}
-        </nav>
-      </header>
-
-      <SlideDrawer
-        side={side}
-        open={open}
-        onClose={() => setOpen(false)}
-        links={LINKS}
-        socials={[] /* your socials here */}
-        title="Menu"
-      />
-    </>
+    <header
+      className={[
+        "fixed inset-x-0 z-[60] transition-colors duration-300",
+        posClass,
+        bgClass,
+        className,
+      ].join(" ")}
+    >
+      {/* 3-column grid keeps the center perfectly centered regardless of side widths */}
+      <nav className={[containerClassName, "grid grid-cols-3 items-center"].join(" ")}>
+        <div className="justify-self-start">{left}</div>
+        <div className="justify-self-center">{center}</div>
+        <div className="justify-self-end">{right}</div>
+      </nav>
+    </header>
   );
 }
