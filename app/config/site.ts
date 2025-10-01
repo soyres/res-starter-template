@@ -1,3 +1,4 @@
+// app/config/site.ts
 export const SiteModes = {
   single: "single",
   multi: "multi",
@@ -6,7 +7,7 @@ export const SiteModes = {
 export type SiteMode = keyof typeof SiteModes;
 
 /** Switch the whole site between single-page and multi-page */
-export const SITE_MODE: SiteMode = "multi"; // ← change to "multi" when you want routes
+export const SITE_MODE: SiteMode = "single"; // ← Set to "single" for your hero overlay setup
 
 /** Source of truth for your sections/pages */
 export const SECTIONS = [
