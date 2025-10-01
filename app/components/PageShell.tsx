@@ -1,3 +1,4 @@
+// app/components/PageShell.tsx
 "use client";
 
 import { useEffect, useState, memo } from "react";
@@ -53,7 +54,8 @@ function PageShell({
   const NAV_H = 80;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
+    // Improved scroll threshold - more stable at 50px instead of 4px
+    const onScroll = () => setScrolled(window.scrollY > 50);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -63,7 +65,7 @@ function PageShell({
   const edgeBorder = navAnchor === "top" ? "border-b border-black/10" : "border-t border-black/10";
   const headerBg =
     scrolled && navAnchor !== "hidden"
-      ? `backdrop-blur supports-[backdrop-filter]:bg-white/60 ${edgeBorder}`
+      ? `backdrop-blur-md supports-[backdrop-filter]:bg-white/70 ${edgeBorder}` // Increased blur and opacity
       : "bg-transparent";
 
   // Get social icons from config
@@ -85,7 +87,10 @@ function PageShell({
   }));
 
   const defaultLeft = (
-    <Link href="/contact" className="tracking-widest text-sm text-white/90 hover:text-white">
+    <Link 
+      href="/contact" 
+      className="tracking-widest text-sm text-white/90 hover:text-white transition-colors duration-200"
+    >
       CONTACT
     </Link>
   );
@@ -112,7 +117,7 @@ function PageShell({
       {navAnchor !== "hidden" && (
         <header
           className={[
-            "fixed inset-x-0 z-[60] transition-colors duration-300",
+            "fixed inset-x-0 z-[60] transition-all duration-500", // Smoother transition
             posClass,
             headerBg,
           ].join(" ")}
