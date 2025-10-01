@@ -6,7 +6,7 @@ export const SiteModes = {
 export type SiteMode = keyof typeof SiteModes;
 
 /** Switch the whole site between single-page and multi-page */
-export const SITE_MODE: SiteMode = "multi"; // ← change to "multi" when you want routes
+export const SITE_MODE: SiteMode = "single"; // ← change to "multi" when you want routes
 
 /** Source of truth for your sections/pages */
 export const SECTIONS = [
