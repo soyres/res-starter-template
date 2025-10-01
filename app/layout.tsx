@@ -80,14 +80,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <JSONLDSchema type="person" />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ConfigProvider config={siteConfig}>
           <ThemeProvider>
+            <JSONLDSchema type="person" />
             {children}
           </ThemeProvider>
         </ConfigProvider>

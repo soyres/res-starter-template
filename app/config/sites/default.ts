@@ -1,12 +1,11 @@
-// config/sites/default.ts - Enhanced version
+// config/sites/default.ts - Enhanced version with splash animations
 import { SiteConfig } from '../types';
 
 export const defaultSiteConfig: SiteConfig = {
   name: 'Res Pizarro',
   tagline: 'Designer & Engineer',
   
-  // ✨ Site mode defined per project
-  mode: 'single', // ← Can be 'single' or 'multi'
+  mode: 'single',
   
   seo: {
     title: 'Res Pizarro - Designer & Engineer',
@@ -61,11 +60,10 @@ export const defaultSiteConfig: SiteConfig = {
     {
       path: '/',
       title: 'Home',
-      // ✨ NEW: Hero Nav Overlay type
       hero: {
-        type: 'hero-nav-overlay', // ← Special hero type
+        type: 'hero-nav-overlay',
         heroNavOverlay: {
-          bgSrc: '/hero.jpg',
+          bgSrc: '/og-image.png',
           links: [
             { href: '#about', label: 'About' },
             { href: '#projects', label: 'Projects' },
@@ -123,8 +121,11 @@ export const defaultSiteConfig: SiteConfig = {
   features: {
     splash: {
       enabled: true,
-      duration: 3000,
+      duration: 3500,
+      animation: 'scale', // Options: 'fade' | 'scale' | 'slide-up' | 'slide-down' | 'zoom' | 'blur' | 'glow' | 'typewriter'
       content: 'Res Pizarro',
+      backgroundColor: 'from-black via-gray-900 to-black',
+      textColor: 'white',
     },
     animations: true,
   },

@@ -6,7 +6,7 @@ import OptimizedImage from "./OptimizedImage";
 import { NAV_LINKS } from "@/app/config/navLinks";
 
 export default function HeroMegaLinks({
-  bgSrc = "/hero.jpg",
+  bgSrc = "/og-image.png",
   links = NAV_LINKS,
 }: {
   bgSrc?: string;

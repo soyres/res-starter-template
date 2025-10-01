@@ -13,6 +13,10 @@ export function ConfigProvider({
   config: SiteConfig; 
   children: ReactNode;
 }) {
+  if (!config) {
+    throw new Error('ConfigProvider requires a valid config object');
+  }
+  
   return (
     <ConfigContext.Provider value={config}>
       {children}
@@ -23,7 +27,7 @@ export function ConfigProvider({
 export function useConfig(): SiteConfig {
   const config = useContext(ConfigContext);
   if (!config) {
-    throw new Error('useConfig must be used within ConfigProvider');
+    throw new Error('useConfig must be used within ConfigProvider. Make sure your component is wrapped with ConfigProvider in the layout.');
   }
   return config;
 }

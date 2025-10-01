@@ -6,21 +6,38 @@ import { useState, useEffect } from "react";
 import { SplashIntro } from "./components/SplashIntro";
 import { SITE_MODE, SiteModes } from "./config/site";
 import HeroNavOverlay from "@/app/components/HeroNavOverlay";
+import { useConfig } from "@/app/config/lib/context/ConfigContext";
 
 export default function Home() {
+  const config = useConfig();
   const [showMain, setShowMain] = useState(false);
   const [mounted, setMounted] = useState(false);
+  
+  const splashConfig = config.features?.splash;
+  const showSplash = splashConfig?.enabled !== false;
 
   // Prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Skip splash if disabled
+  useEffect(() => {
+    if (!showSplash) {
+      setShowMain(true);
+    }
+  }, [showSplash]);
+
   if (!mounted) return null;
 
   return (
     <>
-      {!showMain && <SplashIntro onComplete={() => setShowMain(true)} />}
+      {!showMain && showSplash && (
+        <SplashIntro 
+          onComplete={() => setShowMain(true)}
+          config={splashConfig}
+        />
+      )}
 
       {showMain && (
         <PageShell navAnchor="top" fullHeight>

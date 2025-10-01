@@ -1,6 +1,25 @@
-// config/types.ts - Enhanced version
+// config/types.ts - Enhanced version with splash animations
 
 export type SiteMode = 'single' | 'multi';
+
+export type SplashAnimation = 
+  | 'fade' 
+  | 'scale' 
+  | 'slide-up' 
+  | 'slide-down'
+  | 'zoom'
+  | 'blur'
+  | 'glow'
+  | 'typewriter';
+
+export type SplashConfig = {
+  enabled: boolean;
+  duration?: number;
+  animation?: SplashAnimation;
+  content?: string;
+  backgroundColor?: string;
+  textColor?: string;
+};
 
 export type SiteTheme = {
   colors: {
@@ -44,7 +63,7 @@ export type SEOConfig = {
 };
 
 export type HeroConfig = {
-  type: 'text' | 'video' | 'image' | 'hero-nav-overlay'; // ← Added new type
+  type: 'text' | 'video' | 'image' | 'hero-nav-overlay';
   title?: string;
   subtitle?: string;
   description?: string;
@@ -59,7 +78,6 @@ export type HeroConfig = {
   };
   height?: 'screen' | 'auto' | 'tall' | 'short';
   alignment?: 'left' | 'center' | 'right';
-  // For hero-nav-overlay type
   heroNavOverlay?: {
     bgSrc: string;
     links?: NavLink[];
@@ -93,10 +111,7 @@ export type SiteConfig = {
   logo?: string;
   seo: SEOConfig;
   theme: SiteTheme;
-  
-  // ✨ NEW: Site mode per project
-  mode: SiteMode; // ← 'single' or 'multi' per project
-  
+  mode: SiteMode;
   nav: {
     position: 'top' | 'bottom';
     links: NavLink[];
@@ -108,11 +123,7 @@ export type SiteConfig = {
   socials?: SocialLink[];
   pages: PageConfig[];
   features?: {
-    splash?: {
-      enabled: boolean;
-      duration?: number;
-      content?: string;
-    };
+    splash?: SplashConfig;
     animations?: boolean;
     analytics?: {
       google?: string;

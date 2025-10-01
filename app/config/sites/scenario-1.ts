@@ -57,7 +57,7 @@ export const scenario1Config: SiteConfig = {
       hero: {
         type: 'hero-nav-overlay',
         heroNavOverlay: {
-          bgSrc: '/hero.jpg',
+          bgSrc: '/og-image.png',
           links: [
             { href: '#about', label: 'About' },
             { href: '#work', label: 'Work' },
