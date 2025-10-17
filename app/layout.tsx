@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
 import { ConfigProvider } from "@/app/config/lib/context/ConfigContext";
 import { ThemeProvider } from "@/app/config/lib/context/ThemeProvider";
 import { getActiveConfig } from "@/app/config";

@@ -1,4 +1,3 @@
-// app/sitemap.ts
 import { MetadataRoute } from 'next';
 import { getActiveConfig } from '@/app/config';
 
@@ -8,7 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   
   const routes: MetadataRoute.Sitemap = [];
   
-  // Add all pages from config
+  // Add all pages
   config.pages.forEach(page => {
     routes.push({
       url: `${baseUrl}${page.path}`,
@@ -17,15 +16,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: page.path === '/' ? 1.0 : 0.8,
     });
     
-    // If single-page mode, add section anchors
+    // Add section anchors for single-page sites
     if (config.mode === 'single' && page.sections) {
       page.sections.forEach(section => {
-        routes.push({
-          url: `${baseUrl}${page.path}#${section.id}`,
-          lastModified: new Date(),
-          changeFrequency: 'weekly',
-          priority: 0.6,
-        });
+        if (section.id !== 'hero') {
+          routes.push({
+            url: `${baseUrl}${page.path}#${section.id}`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.6,
+          });
+        }
       });
     }
   });
