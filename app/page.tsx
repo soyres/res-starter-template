@@ -1,21 +1,23 @@
-// app/page.tsx
+// app/page.tsx - FIXED VERSION
 "use client";
 
-import PageShell from "./components/PageShell";
 import { useState, useEffect } from "react";
 import { SplashIntro } from "./components/SplashIntro";
-import { SITE_MODE, SiteModes } from "./config/site";
-import HeroNavOverlay from "@/app/components/HeroNavOverlay";
+import { Hero } from "./components/Hero";
+import { Section } from "./components/Section";
 import { useConfig } from "@/app/config/lib/context/ConfigContext";
+import NavBar from "./components/NavBar";
 
 export default function Home() {
   const config = useConfig();
-  console.log("CONFIG IS:::", config)
   const [showMain, setShowMain] = useState(false);
   const [mounted, setMounted] = useState(false);
   
   const splashConfig = config.features?.splash;
   const showSplash = splashConfig?.enabled !== false;
+
+  // Get the home page config
+  const homePage = config.pages.find(p => p.path === '/') || config.pages[0];
 
   // Prevent hydration mismatch
   useEffect(() => {
@@ -29,10 +31,32 @@ export default function Home() {
     }
   }, [showSplash]);
 
+ // FIX: Prevent white flash by matching body background to splash
+  useEffect(() => {
+    if (showSplash && !showMain) {
+      document.body.style.background = 'linear-gradient(to bottom right, #000000, #1f2937, #000000)';
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Small delay to ensure smooth transition
+      setTimeout(() => {
+        document.body.style.background = '';
+        document.body.style.overflow = '';
+      }, 100);
+    }
+    
+    return () => {
+      document.body.style.background = '';
+      document.body.style.overflow = '';
+    };
+  }, [showSplash, showMain]);
+
   if (!mounted) return null;
+
+
 
   return (
     <>
+      {/* Splash Screen */}
       {!showMain && showSplash && (
         <SplashIntro 
           onComplete={() => setShowMain(true)}
@@ -40,33 +64,20 @@ export default function Home() {
         />
       )}
 
+      {/* Main Content */}
       {showMain && (
-        <PageShell navAnchor="top" fullHeight>
-          <HeroNavOverlay />
+        <>
+          {/* Navigation */}
+          {homePage.showNav && <NavBar />}
 
-          {SITE_MODE === SiteModes.single && (
-            <>
-              <section id="about" className="scroll-mt-24 min-h-[60vh] px-4 py-20">
-                <h2 className="text-xl font-semibold mb-4">About</h2>
-                <p className="opacity-80 max-w-3xl">About content…</p>
-              </section>
-              
-              <section id="projects" className="scroll-mt-24 min-h-[60vh] px-4 py-20">
-                <h2 className="text-xl font-semibold mb-6">Projects</h2>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div className="aspect-[4/3] bg-black/5 rounded" />
-                  <div className="aspect-[4/3] bg-black/5 rounded" />
-                  <div className="aspect-[4/3] bg-black/5 rounded" />
-                </div>
-              </section>
+          {/* Hero Section */}
+          {homePage.hero && <Hero config={homePage.hero} />}
 
-              <section id="contact" className="scroll-mt-24 min-h-screen px-4 py-20">
-                <h2 className="text-xl font-semibold mb-4">Contact</h2>
-                <p className="opacity-80">Email • LinkedIn • Instagram</p>
-              </section>
-            </>
-          )}
-        </PageShell>
+          {/* All Sections from Config */}
+          {homePage.sections.map((section) => (
+            <Section key={section.id} {...section} />
+          ))}
+        </>
       )}
     </>
   );

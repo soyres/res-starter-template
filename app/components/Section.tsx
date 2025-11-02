@@ -3,6 +3,7 @@
 
 import { SectionConfig } from '@/app/config/types';
 import { useTheme } from '@/app/config/lib/context/ConfigContext';
+import ContactForm from "@/app/components/ContactForm";
 
 export const Section = (config: SectionConfig) => {
   const theme = useTheme();
@@ -119,15 +120,18 @@ export const Section = (config: SectionConfig) => {
             ))}
           </div>
         )}
-
         {config.type === 'contact' && (
-          <div className="max-w-md mx-auto text-center">
-            <a
-              href="mailto:hello@example.com"
-              className="inline-block px-8 py-4 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors"
-            >
-              Get in Touch
-            </a>
+          <div className="max-w-2xl mx-auto mt-12">
+            <ContactForm
+              config={{
+                provider: 'resend',
+                fields: [
+                  { name: 'name', label: 'Name', type: 'text', required: true },
+                  { name: 'email', label: 'Email', type: 'email', required: true },
+                  { name: 'message', label: 'Message', type: 'textarea', required: true },
+                ],
+              }}
+            />
           </div>
         )}
       </div>

@@ -257,7 +257,7 @@ export const jonDavisAutomotiveConfig: SiteConfig = {
         // Contact Section
         {
           id: 'contact',
-          type: 'about',
+          type: 'contact',
           title: 'Start Your Search',
           subtitle: 'Let\'s Find Your Dream Car',
           layout: 'single',
@@ -280,7 +280,7 @@ export const jonDavisAutomotiveConfig: SiteConfig = {
     splash: {
       enabled: true,
       duration: 2500,
-      animation: 'fade',
+      animation: 'blur',
       content: 'Jon Davis Automotive',
       backgroundColor: 'from-black via-gray-900 to-black',
       textColor: 'white',

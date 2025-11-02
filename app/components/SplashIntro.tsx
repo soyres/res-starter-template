@@ -35,7 +35,6 @@ export const SplashIntro = ({
   const duration = config.duration || 3500;
   const animation = config.animation || 'scale';
   const content = config.content || 'Res Pizarro';
-
   // Typewriter effect
   useEffect(() => {
     if (animation === 'typewriter' && stage === 'show') {
