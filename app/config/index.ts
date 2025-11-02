@@ -4,12 +4,14 @@ import { defaultSiteConfig } from './sites/default';
 import { clientExampleConfig } from './sites/client-example';
 import { scenario1Config } from './sites/scenario-1';
 import { scenario2Config } from './sites/scenario-2';
+import { jonDavisAutomotiveConfig } from './sites/jon-davis-automotive'
 
 export const siteConfigs: Record<string, SiteConfig> = {
   default: defaultSiteConfig,
   'client-example': clientExampleConfig,
   'scenario-1': scenario1Config,
   'scenario-2': scenario2Config,
+  'jon-davis-automotive': jonDavisAutomotiveConfig,
 };
 export function getActiveConfig(): SiteConfig {
   const configName = process.env.NEXT_PUBLIC_SITE_CONFIG;

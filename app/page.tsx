@@ -10,6 +10,7 @@ import { useConfig } from "@/app/config/lib/context/ConfigContext";
 
 export default function Home() {
   const config = useConfig();
+  console.log("CONFIG IS:::", config)
   const [showMain, setShowMain] = useState(false);
   const [mounted, setMounted] = useState(false);
   
